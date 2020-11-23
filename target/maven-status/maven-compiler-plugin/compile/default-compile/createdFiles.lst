@@ -1,0 +1,6 @@
+com\revature\amazon\model\Item.class
+com\revature\amazon\model\Order.class
+com\revature\amazon\model\Role.class
+com\revature\amazon\servlet\Test.class
+com\revature\amazon\servlet\Users.class
+com\revature\amazon\model\User.class
