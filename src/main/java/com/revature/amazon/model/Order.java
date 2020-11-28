@@ -9,19 +9,15 @@ public class Order {
 
     private int id;
     private boolean isShipped;
-    private int totalPrice;
-    private ArrayList<Item> items;
     private User buyer;
 
     public Order() {
         super();
     }
 
-    public Order(int id, boolean isShipped, int totalPrice, ArrayList<Item> items, User buyer) {
+    public Order(int id, boolean isShipped, User buyer) {
         this.id = id;
         this.isShipped = isShipped;
-        this.totalPrice = totalPrice;
-        this.items = items;
         this.buyer = buyer;
     }
 
@@ -41,10 +37,6 @@ public class Order {
         this.isShipped = false;
     }
 
-    public int getTotalPrice() {
-        return this.totalPrice;
-    }
-
     // public void total() {
     //     int total = 0;
     //     for(int i; i < items.length() + 1; i++) {
@@ -53,14 +45,6 @@ public class Order {
     //     }
     // }
     
-    public ArrayList getItems() {
-        return this.items;
-    }
-
-    public void addItem(Item item) {
-        this.items.add(item);
-    }
-
     // public void removeItem(Item item) {
     //     // need index of item to remove
     //     this.items.remove(item.index());
