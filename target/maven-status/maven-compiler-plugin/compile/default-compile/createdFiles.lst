@@ -11,5 +11,6 @@ com\revature\amazon\db\OrderDB.class
 com\revature\amazon\model\Order.class
 com\revature\amazon\controller\Orders.class
 com\revature\amazon\util\JDBCUtility.class
+com\revature\amazon\controller\Calc.class
 com\revature\amazon\controller\Users.class
 com\revature\amazon\model\Role.class

@@ -27,9 +27,12 @@ public class ItemService {
     }
 
     public Item findItem() throws IOException {
-        if (this.requestKey != null) {
-            return itemDB.getItem(Integer.parseInt(requestValue));
-
+        if (this.requestKey.equals("id")) {
+            return itemDB.getItem(Integer.parseInt(requestValue), "i.id");
+        } else if (this.requestKey.equals("price")) {
+            return itemDB.getItem(Integer.parseInt(requestValue), "i.price");
+        } else if (this.requestKey.equals("seller")) {
+            return itemDB.getItem(Integer.parseInt(requestValue), "u.id");
         } else {
             throw new IOException("Invalid Search Option");
         }

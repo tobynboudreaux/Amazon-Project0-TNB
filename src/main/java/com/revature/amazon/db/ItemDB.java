@@ -55,11 +55,12 @@ public class ItemDB {
         return items;
     }   
 
-    public Item getItem(int id) {
+    public Item getItem(int value, String type) {
 
         Item item = new Item();
-        String sqlQuery = "SELECT * FROM items i INNER JOIN users u ON i.seller_id = u.id INNER JOIN roles r ON u.role_id = r.id WHERE i.id = " + id + ";";
 
+        String sqlQuery = "SELECT * FROM items i INNER JOIN users u ON i.seller_id = u.id INNER JOIN roles r ON u.role_id = r.id WHERE " + type + " = " + value + ";";
+        
         try (Connection connection = JDBCUtility.getConnection()) {
 
             ResultSet rs = connection.createStatement().executeQuery(sqlQuery);
