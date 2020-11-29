@@ -67,12 +67,10 @@ User
 Download Java Runtime Environment at: https://www.oracle.com/java/technologies/javase-jre8-downloads.html
 Download PostgreSQL database at: https://www.postgresql.org/download/
 Download Apache Tomcat version 9 at: https://tomcat.apache.org/download-90.cgi
-Download amazon.war file from GitHub at: https://github.com/tobynboudreaux/Amazon-Project0-TNB
 Download Postman at: https://www.postman.com/downloads/
 Navigate to http://localhost:8080/animalshelter using Postman to begin using API.
 Developer
 Download and install Java JDK, IDE, Postman, and Maven if needed.
 Install PostreSQL and Tomcat as instructed above for users.
-Download source code from GitHub at: https://github.com/tobynboudreaux/Amazon-Project0-TNB
 Be sure to load dependencies from pom.xml file in project directory (Maven will install these automatically).
 
