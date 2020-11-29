@@ -68,7 +68,7 @@ Download Java Runtime Environment at: https://www.oracle.com/java/technologies/j
 Download PostgreSQL database at: https://www.postgresql.org/download/
 Download Apache Tomcat version 9 at: https://tomcat.apache.org/download-90.cgi
 Download Postman at: https://www.postman.com/downloads/
-Navigate to http://localhost:8080/animalshelter using Postman to begin using API.
+Navigate to http://localhost:8080/users using Postman to begin using API.
 Developer
 Download and install Java JDK, IDE, Postman, and Maven if needed.
 Install PostreSQL and Tomcat as instructed above for users.
