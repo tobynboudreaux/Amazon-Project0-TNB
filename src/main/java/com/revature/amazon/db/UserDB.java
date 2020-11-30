@@ -174,5 +174,28 @@ public class UserDB {
         return users;
     }
     
+    public Boolean validEmail(String email, String password) {
+		String sqlQuery = "SELECT * FROM users WHERE email = ? and password_hash = ? LIMIT 1";
+
+		try (Connection connection = JDBCUtility.getConnection()) {
+
+			PreparedStatement pstmt = connection.prepareStatement(sqlQuery);
+			pstmt.setString(1, email);
+			pstmt.setString(2, password);
+
+			ResultSet resultSet = pstmt.executeQuery();
+
+			if (resultSet.next()) {
+				return true;
+			} else {
+				return false;
+			}
+
+		} catch (SQLException e) {
+			Logger logger = Logger.getLogger(UserDB.class);
+			logger.debug(e.getMessage());
+		}
+		return false;
+	}
 
 }
