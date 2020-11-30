@@ -59,6 +59,17 @@ Delete User Based on ID:
 DELETE http://localhost:4321/users?id?id=(id)
 Response: Deletes user based on {id}.
 
+Sessions Domain
+
+Login
+Post http://localhost:4321/sessions
+Request with JSON values the user email and password you with to log in as.
+Response: Logs in User and returns a welcome message
+
+Logout
+Delete http://localhost:4321/sessions
+Response: Logs out User if one is logged in
+
 Database Schema
 Schema
 
