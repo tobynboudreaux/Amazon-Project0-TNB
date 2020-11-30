@@ -5,11 +5,11 @@ import com.revature.amazon.db.UserDB;
 public class SessionService {
 
 	private String email;
-    private String password;
-    
-    public SessionService() {
-        
-    }
+	private String password;
+	
+	public SessionService() {
+
+	}
 	
 	public SessionService(String email, String password) {
 		this.email = email;
@@ -17,7 +17,7 @@ public class SessionService {
 	}
 
 	public String getEmail() {
-		return email;
+		return this.email;
 	}
 
 	public void setEmail(String email) {
@@ -25,7 +25,7 @@ public class SessionService {
 	}
 
 	public String getPassword() {
-		return password;
+		return this.password;
 	}
 
 	public void setPassword(String password) {

@@ -17,7 +17,7 @@ import org.apache.log4j.Logger;
 import com.revature.amazon.service.SessionService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-@WebServlet(urlPatterns = { "/login", "/logout" } )
+@WebServlet("/sessions")
 public class Sessions extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
@@ -51,7 +51,7 @@ public class Sessions extends HttpServlet {
 
 		if (userSession.validateUser()) {
 			HttpSession session = request.getSession();
-			session.setAttribute("username", userSession.getEmail());
+			session.setAttribute("email", userSession.getEmail());
 			response.setContentType("text/html");
 			PrintWriter pwriter = response.getWriter();
 			pwriter.print("<h2>Welcome " + userSession.getEmail() + "!</h2>");

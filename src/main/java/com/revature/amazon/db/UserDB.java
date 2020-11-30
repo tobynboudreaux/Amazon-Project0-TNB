@@ -175,7 +175,7 @@ public class UserDB {
     }
     
     public Boolean validEmail(String email, String password) {
-		String sqlQuery = "SELECT * FROM users WHERE email = ? and password_hash = ? LIMIT 1";
+		String sqlQuery = "SELECT * FROM users WHERE email = ? and password = ? LIMIT 1";
 
 		try (Connection connection = JDBCUtility.getConnection()) {
 
