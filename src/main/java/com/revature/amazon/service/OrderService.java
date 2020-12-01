@@ -28,14 +28,8 @@ public class OrderService {
 
     }
 
-    public Order findOrder() throws IOException {
-        if (this.requestKey != null) {
-            return orderDB.getOrder(Integer.parseInt(requestValue));
-
-        } else {
-            throw new IOException("Invalid Search Option");
-            
-        }
+    public Order findOrder(int getID) throws IOException {
+        return orderDB.getOrder(getID);
 
 }
 

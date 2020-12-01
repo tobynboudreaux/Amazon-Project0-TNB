@@ -16,7 +16,7 @@ import com.revature.amazon.model.Order;
 import com.revature.amazon.service.OrderService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-@WebServlet("/orders")
+@WebServlet("/orders/*")
 public class Orders extends HttpServlet {
 
     ObjectMapper objectMapper = new ObjectMapper();
@@ -26,12 +26,11 @@ public class Orders extends HttpServlet {
         throws ServletException, IOException {
             System.out.println("get request recieved @ /orders");
 
-            if (req.getQueryString() != null) {
-                String requestKey = req.getQueryString().split("=")[0];
-                String requestValue = req.getQueryString().split("=")[1];
+            if (req.getPathInfo() != null) {
+                int getID = Integer.parseInt(req.getPathInfo().substring(1));
 
                 try {
-                    Order order = new OrderService(requestKey, requestValue).findOrder();
+                    Order order = new OrderService().findOrder(getID);
                     resp.getWriter().append(objectMapper.writeValueAsString(order));
                     resp.setContentType("application/json");
                     resp.setStatus(201);

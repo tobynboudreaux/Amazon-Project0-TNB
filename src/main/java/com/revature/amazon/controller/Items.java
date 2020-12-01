@@ -20,7 +20,7 @@ import com.revature.amazon.model.Item;
 import com.revature.amazon.service.ItemService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-@WebServlet("/items")
+@WebServlet("/items/*")
 public class Items extends HttpServlet {
     ObjectMapper objectMapper = new ObjectMapper();
 
@@ -86,11 +86,11 @@ public class Items extends HttpServlet {
     protected void doPut(HttpServletRequest req, HttpServletResponse resp)
         throws ServletException, IOException {
             System.out.println("put request recieved @ /items");
+            int editID = Integer.parseInt(req.getPathInfo().substring(1));
             JSONObject jsonObject = new JSONObject(IOUtils.toString(req.getReader()));
-            int requestValue = Integer.parseInt(req.getQueryString().split("=")[1]);
 
             try {
-                Item item = new ItemService().editItem(requestValue, jsonObject);
+                Item item = new ItemService().editItem(editID, jsonObject);
                 resp.getWriter().append(objectMapper.writeValueAsString(item));
                 resp.setContentType("application/json");
                 resp.setStatus(201);
@@ -106,29 +106,20 @@ public class Items extends HttpServlet {
     protected void doDelete(HttpServletRequest req, HttpServletResponse resp)
         throws ServletException, IOException {
             System.out.println("delete request recieved @ /items");
+            int deleteID = Integer.parseInt(req.getPathInfo().substring(1));
             
-            if (req.getQueryString() != null) {
-                String requestKey = req.getQueryString().split("=")[0];
-                String requestValue = req.getQueryString().split("=")[1];
-                
-                try {
-                    ArrayList<Item> items = new ItemService(requestKey, requestValue).deleteItem();
-                    resp.getWriter().append(objectMapper.writeValueAsString(items));
-                    resp.setContentType("application/json");
-                    resp.setStatus(201);
+            try {
+                ArrayList<Item> items = new ItemService().deleteItem(deleteID);
+                resp.getWriter().append(objectMapper.writeValueAsString(items));
+                resp.setContentType("application/json");
+                resp.setStatus(201);
 
-                } catch (IOException e) {
-                    resp.setStatus(400);
-
-                    Logger logger = Logger.getLogger(Items.class);
-                    logger.debug(e.toString() + "QueryString: " + req.getQueryString());               
-               
-                }    
-            } else {
+            } catch (IOException e) {
                 resp.setStatus(400);
 
-                System.out.println("Item not found");
-
-            }
+                Logger logger = Logger.getLogger(Items.class);
+                logger.debug(e.toString() + "QueryString: " + req.getQueryString());               
+            
+            }    
         }
 }

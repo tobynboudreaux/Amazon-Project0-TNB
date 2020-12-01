@@ -44,7 +44,6 @@ public class ItemService {
             throw new IOException("Invalid Search Option");
 
         }
-
     }
 
     public ArrayList<Item> getAllItems() {
@@ -73,15 +72,9 @@ public class ItemService {
 
     }
 
-    public ArrayList<Item> deleteItem() throws IOException {
-        if (this.requestKey != null) {
-            ArrayList<Item> items = itemDB.deleteItem(Integer.parseInt(requestValue));
-            return items;
-
-        } else {
-            throw new IOException("Item not found");
-            
-        }
+    public ArrayList<Item> deleteItem(int deleteID) throws IOException {
+        ArrayList<Item> items = itemDB.deleteItem(deleteID);
+        return items;
 
     }
 }

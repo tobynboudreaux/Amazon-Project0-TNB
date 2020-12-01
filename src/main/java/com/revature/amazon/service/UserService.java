@@ -29,14 +29,8 @@ public class UserService {
 
     }
 
-    public User findUser() throws IOException {
-        if (this.requestKey != null) {
-            return userDB.getUser(Integer.parseInt(requestValue));
-
-        } else {
-            throw new IOException("Invalid Search Option");
-            
-        }
+    public User findUser(int getID) throws IOException {
+        return userDB.getUser(getID);
 
     }
 
@@ -66,14 +60,9 @@ public class UserService {
     
     }
 
-    public ArrayList<User> deleteUser() throws IOException {
-        if (this.requestKey != null) {
-            ArrayList<User> users = userDB.deleteUser(Integer.parseInt(requestValue));
-            return users;
+    public ArrayList<User> deleteUser(int deleteID) throws IOException {
+        ArrayList<User> users = userDB.deleteUser(deleteID);
+        return users;
 
-        } else {
-            throw new IOException("User not found");
-
-        }
     }
 }

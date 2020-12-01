@@ -21,7 +21,7 @@ import com.revature.amazon.model.User;
 import com.revature.amazon.service.UserService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-@WebServlet("/users")
+@WebServlet("/users/*")
 public class Users extends HttpServlet {
 
     ObjectMapper objectMapper = new ObjectMapper();
@@ -31,12 +31,11 @@ public class Users extends HttpServlet {
         throws ServletException, IOException {
             System.out.println("get request recieved @ /users");
 
-            if (req.getQueryString() != null) {
-                String requestKey = req.getQueryString().split("=")[0];
-                String requestValue = req.getQueryString().split("=")[1];
+            if (req.getPathInfo() != null) {
+                int getID = Integer.parseInt(req.getPathInfo().substring(1));
 
                 try {
-                    User user = new UserService(requestKey, requestValue).findUser();
+                    User user = new UserService().findUser(getID);
                     resp.getWriter().append(objectMapper.writeValueAsString(user));
                     resp.setContentType("application/json");
                     resp.setStatus(201);
@@ -87,8 +86,8 @@ public class Users extends HttpServlet {
     protected void doPut(HttpServletRequest req, HttpServletResponse resp)
         throws ServletException, IOException {
             System.out.println("put request recieved @ /users");
-            int editID = Integer.parseInt(req.getQueryString().split("=")[1]);
             JSONObject jsonObject = new JSONObject(IOUtils.toString(req.getReader()));
+            int editID = Integer.parseInt(req.getPathInfo().substring(1));
 
             try {
                 User user = new UserService().editUser(editID, jsonObject);
@@ -107,29 +106,20 @@ public class Users extends HttpServlet {
     protected void doDelete(HttpServletRequest req, HttpServletResponse resp)
         throws ServletException, IOException {
             System.out.println("delete request recieved @ /users");
+            int deleteID = Integer.parseInt(req.getPathInfo().substring(1));
 
-            if (req.getQueryString() != null) {
-                String requestKey = req.getQueryString().split("=")[0];
-                String requestValue = req.getQueryString().split("=")[1];
-                
-                try {
-                    ArrayList<User> users = new UserService(requestKey, requestValue).deleteUser();
-                    resp.getWriter().append(objectMapper.writeValueAsString(users));
-                    resp.setContentType("application/json");
-                    resp.setStatus(201);
+            try {
+                ArrayList<User> users = new UserService().deleteUser(deleteID);
+                resp.getWriter().append(objectMapper.writeValueAsString(users));
+                resp.setContentType("application/json");
+                resp.setStatus(201);
 
-                } catch (IOException e) {
-                    resp.setStatus(400);
-
-                    Logger logger = Logger.getLogger(Users.class);
-                    logger.debug(e.toString() + "QueryString: " + req.getQueryString());               
-               
-                }    
-            } else {
+            } catch (IOException e) {
                 resp.setStatus(400);
 
-                System.out.println("User not found");
-
-            }
+                Logger logger = Logger.getLogger(Users.class);
+                logger.debug(e.toString() + "QueryString: " + req.getQueryString());               
+            
+            }    
         }     
 }
