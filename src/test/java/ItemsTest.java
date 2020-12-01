@@ -13,6 +13,6 @@ public class ItemsTest {
         .then()
         .body("id", equalTo(1))
         .body("name", equalTo("iPhone7"));
-    }
 
+    }
 }

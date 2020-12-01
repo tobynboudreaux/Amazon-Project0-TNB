@@ -9,7 +9,6 @@ import org.postgresql.Driver;
 public class JDBCUtility {
 	
 	public static Connection getConnection() throws SQLException {
-		
 		String url = "jdbc:postgresql://localhost:5433/postgres";
 		String username = "postgres";
 		String password = "password";
@@ -20,5 +19,6 @@ public class JDBCUtility {
 		connection = DriverManager.getConnection(url, username, password);
 		
 		return connection;
+		
 	}
 }

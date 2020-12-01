@@ -1,2 +1,0 @@
-0:0:0:0:0:0:0:1 - - [29/Nov/2020:19:50:21 -0600] "POST /sessions HTTP/1.1" 200 34 http-bio-4321-exec-2 678
-0:0:0:0:0:0:0:1 - - [29/Nov/2020:19:50:26 -0600] "DELETE /sessions HTTP/1.1" 200 24 http-bio-4321-exec-3 2

@@ -10,5 +10,6 @@ public class CalcTest {
         Calc c = new Calc();
         int i = c.multiply(3, 5);
         Assert.assertEquals(i, 15);
+        
     }
 }

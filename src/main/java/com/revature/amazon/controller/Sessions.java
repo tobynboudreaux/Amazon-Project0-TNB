@@ -23,6 +23,7 @@ public class Sessions extends HttpServlet {
 
 	public Sessions() {
 		super();
+
 	}
 
 	ObjectMapper objectMapper = new ObjectMapper();
@@ -30,23 +31,22 @@ public class Sessions extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		response.getWriter().append("Served at: ").append(request.getContextPath());
+	
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		BufferedReader requestBody = request.getReader();
-
 		StringBuilder requestBodyString = new StringBuilder();
-
 		String requestBodyLine;
 		String jsonRequestBody;
 
 		while ((requestBodyLine = requestBody.readLine()) != null) {
 			requestBodyString.append(requestBodyLine);
+
 		}
 
 		jsonRequestBody = requestBodyString.toString();
-
 		SessionService userSession = objectMapper.readValue(jsonRequestBody, SessionService.class);
 
 		if (userSession.validateUser()) {
@@ -60,10 +60,10 @@ public class Sessions extends HttpServlet {
 			logger.info(userSession.getEmail() + " Logged in.");
 
 		} else {
-
 			Logger logger = Logger.getLogger(Sessions.class);
 			logger.debug("Bad email or password: " + userSession.getEmail());
 			response.setStatus(401);
+
 		}
 
 	}
@@ -74,14 +74,14 @@ public class Sessions extends HttpServlet {
 		if (request.getSession().getAttribute("email") == null) {
 			response.setStatus(400);
 			response.getWriter().print("Error - not logged in yet");
+
 		} else {
 			Logger logger = Logger.getLogger(Sessions.class);
 			logger.info(request.getSession().getAttribute("email") + " Logged out.");
 
 			request.logout();
 			response.getWriter().print("Successfully Logged Out!");
-		}
-	
-	}
 
+		}
+	}
 }

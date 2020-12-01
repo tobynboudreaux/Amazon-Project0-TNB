@@ -27,36 +27,35 @@ public class Orders extends HttpServlet {
             System.out.println("get request recieved @ /orders");
 
             if (req.getQueryString() != null) {
-
                 String requestKey = req.getQueryString().split("=")[0];
                 String requestValue = req.getQueryString().split("=")[1];
 
                 try {
-
                     Order order = new OrderService(requestKey, requestValue).findOrder();
                     resp.getWriter().append(objectMapper.writeValueAsString(order));
                     resp.setContentType("application/json");
                     resp.setStatus(201);
+                
                 } catch (IOException e) {
-
                     resp.setStatus(400);
 
                     Logger logger = Logger.getLogger(Users.class);
                     logger.debug(e.toString() + "QueryString: " + req.getQueryString());               
-                }
-                    
+                
+                }    
             } else {
 
                 try {
-
                     ArrayList<Order> orders = new OrderService().getAllOrders();
                     resp.getWriter().append(objectMapper.writeValueAsString(orders));
                     resp.setContentType("application/json");
                     resp.setStatus(200);
+                
                 } catch (Exception e) {
 
                     resp.setStatus(400);
                     e.printStackTrace();
+                
                 }
             }
         }
@@ -72,11 +71,13 @@ public class Orders extends HttpServlet {
     protected void doPut(HttpServletRequest req, HttpServletResponse resp)
         throws ServletException, IOException {
             System.out.println("put request recieved @ /orders");
+        
         }
 
     @Override
     protected void doDelete(HttpServletRequest req, HttpServletResponse resp)
         throws ServletException, IOException {
             System.out.println("delete request recieved @ /orders");
+ 
         }
 }

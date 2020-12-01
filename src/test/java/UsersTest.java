@@ -13,6 +13,6 @@ public class UsersTest {
         .then()
         .body("id", equalTo(1))
         .body("email", equalTo("toby@gmail.com"));
+        
     }
-
 }

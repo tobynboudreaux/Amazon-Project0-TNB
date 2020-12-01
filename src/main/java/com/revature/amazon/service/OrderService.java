@@ -8,22 +8,24 @@ import com.revature.amazon.db.OrderDB;
 import com.revature.amazon.model.Order;
 
 public class OrderService {
-
     private String requestKey, requestValue;
     private OrderDB orderDB;
     
     public OrderService() {
-        this.orderDB = new OrderDB();    
+        this.orderDB = new OrderDB();
+
     }
 
     public OrderService(OrderDB orderDB) {
         this.orderDB = new OrderDB();
+
     }
 
     public OrderService(String requestKey, String requestValue) {
         this.orderDB = new OrderDB();
         this.requestKey = requestKey;
         this.requestValue = requestValue;
+
     }
 
     public Order findOrder() throws IOException {
@@ -32,11 +34,14 @@ public class OrderService {
 
         } else {
             throw new IOException("Invalid Search Option");
+            
         }
+
 }
 
     public ArrayList<Order> getAllOrders() {
         ArrayList<Order> orders = orderDB.getAllOrders();
         return orders;
+
     }
 }

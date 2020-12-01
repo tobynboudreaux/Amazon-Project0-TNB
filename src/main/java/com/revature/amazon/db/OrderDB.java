@@ -18,16 +18,13 @@ import com.revature.amazon.util.JDBCUtility;
 public class OrderDB {
 
     public ArrayList<Order> getAllOrders() {
-
         ArrayList<Order> orders = new ArrayList();
         String sqlQuery = "SELECT * FROM orders o INNER JOIN users u ON o.buyer_id = u.id INNER JOIN roles r ON u.role_id = r.id";
 
         try (Connection connection = JDBCUtility.getConnection()) {
-
             ResultSet rs = connection.createStatement().executeQuery(sqlQuery);
 
             while (rs.next()) {
-
                 int orderId = rs.getInt(1);
                 boolean isShipped = rs.getBoolean(2);
                 int buyerId = rs.getInt(3);
@@ -38,28 +35,26 @@ public class OrderDB {
                 String uRoleName = rs.getString(10);
 
                 orders.add(new Order(orderId, isShipped, new User(buyerId, uEmail, uPassword, uBalance, new Role(uRole_Id, uRoleName))));
+           
             }
 
             return orders;
         } catch (SQLException e) {
-
             e.printStackTrace();
+
         }
 
         return orders;
     }
 
     public Order getOrder(int id) {
-
         Order order = new Order();
         String sqlQuery = "SELECT * FROM orders o INNER JOIN users u ON o.buyer_id = u.id INNER JOIN roles r ON u.role_id = r.id WHERE o.id = " + id + ";";
 
         try (Connection connection = JDBCUtility.getConnection()) {
-
             ResultSet rs = connection.createStatement().executeQuery(sqlQuery);
 
             while (rs.next()) {
-
                 int orderId = rs.getInt(1);
                 boolean isShipped = rs.getBoolean(2);
                 int buyerId = rs.getInt(3);
@@ -70,12 +65,13 @@ public class OrderDB {
                 String uRoleName = rs.getString(10);
 
                 order = new Order(orderId, isShipped, new User(buyerId, uEmail, uPassword, uBalance, new Role(uRole_Id, uRoleName)));
+            
             }
 
             return order;
         } catch (SQLException e) {
-
             e.printStackTrace();
+       
         }
 
         return order;
