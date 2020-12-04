@@ -1,5 +1,6 @@
 com\revature\amazon\controller\Items.class
 com\revature\amazon\controller\Test.class
+com\revature\amazon\db\SetupDB.class
 com\revature\amazon\model\User.class
 com\revature\amazon\util\MD5Util.class
 com\revature\amazon\service\ItemService.class
@@ -15,5 +16,7 @@ com\revature\amazon\controller\Orders.class
 com\revature\amazon\service\SessionService.class
 com\revature\amazon\util\JDBCUtility.class
 com\revature\amazon\controller\Calc.class
+com\revature\amazon\controller\Setup.class
+com\revature\amazon\service\SetupService.class
 com\revature\amazon\controller\Users.class
 com\revature\amazon\model\Role.class

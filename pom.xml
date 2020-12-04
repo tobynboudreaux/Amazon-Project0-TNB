@@ -5,8 +5,8 @@
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>com.revature</groupId>
-  <artifactId>tomcat-test</artifactId>
-  <version>1.0-SNAPSHOT</version>
+  <artifactId>Amazon-Project0-TNB</artifactId>
+  <version>2.0</version>
   <packaging>war</packaging>
 
   <properties>
@@ -72,7 +72,7 @@
   </dependencies>
 
   <build>
-    <finalName>TomcatTest</finalName>
+    <finalName>Amazon</finalName>
     <pluginManagement>
       <plugins>
         <plugin>            
