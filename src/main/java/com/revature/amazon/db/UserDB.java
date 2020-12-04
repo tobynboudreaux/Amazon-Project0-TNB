@@ -114,7 +114,7 @@ public class UserDB {
     public User createUser(int id, String email, String password, int balance, int role_id) {
 
         User user = new User();
-        String sqlQuery = "INSERT INTO users (ID, EMAIL, PASSWORD, BALANCE, ROLE_ID) " 
+        String sqlQuery = "INSERT INTO users (id, email, password, balance, role_id) " 
                         + "VALUES (?, ?, ?, ?, ?)";
 
         String sel = "SELECT * FROM users u INNER JOIN roles r ON u.role_id = r.id WHERE u.id = " + id + ";";

@@ -19,7 +19,7 @@ public class Setup extends HttpServlet {
 
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
-                System.out.println("GET request recieved @ /");
+        req.getRequestDispatcher("WEB-INF/home.jsp").forward(req, resp);
         
         try {
             String getIt = new SetupService().setupData();

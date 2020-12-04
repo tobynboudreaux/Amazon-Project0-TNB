@@ -9,9 +9,9 @@ import org.postgresql.Driver;
 public class JDBCUtility {
 	
 	public static Connection getConnection() throws SQLException {
-		String url = "jdbc:postgresql://localhost:5432/postgres";
+		String url = "jdbc:postgresql://18.191.164.245:5432/postgres";
 		String username = "postgres";
-		String password = "Toby1197";
+		String password = "password";
 	
 		Connection connection = null;
 		

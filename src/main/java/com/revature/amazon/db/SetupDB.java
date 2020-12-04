@@ -16,7 +16,7 @@ public class SetupDB {
 
     public String setupData() {
 
-        String createUsers = "CREATE TABLE IF NOT EXISTS roles ( "
+        String createUsers = "CREATE TABLE IF NOT EXISTS users ( "
             + "id int NOT NULL,"
             + "email TEXT NOT NULL,"
             + "password TEXT NOT NULL,"
@@ -56,11 +56,11 @@ public class SetupDB {
 
         try (Connection connection = JDBCUtility.getConnection()) {
 
-            connection.createStatement().executeUpdate(createUsers);
-            connection.createStatement().executeUpdate(createOrders);
-            connection.createStatement().executeUpdate(createItems);
-            connection.createStatement().executeUpdate(createOrderItems);
             connection.createStatement().executeUpdate(createRoles);
+            connection.createStatement().executeUpdate(createUsers);
+            connection.createStatement().executeUpdate(createItems);
+            connection.createStatement().executeUpdate(createOrders);
+            connection.createStatement().executeUpdate(createOrderItems);
 
             return "Database setup successfully";
         } catch (SQLException e) {
@@ -68,6 +68,6 @@ public class SetupDB {
             e.printStackTrace();
         }
 
-        return "Database was not setup successfully.";
+        return "Database was not setup";
     }
 }
