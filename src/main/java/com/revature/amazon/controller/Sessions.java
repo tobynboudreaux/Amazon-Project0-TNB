@@ -49,22 +49,18 @@ public class Sessions extends HttpServlet {
 		jsonRequestBody = requestBodyString.toString();
 		SessionService userSession = objectMapper.readValue(jsonRequestBody, SessionService.class);
 
-		if (userSession.validateUser()) {
+			userSession.validateUser();
 			HttpSession session = request.getSession();
 			session.setAttribute("email", userSession.getEmail());
+			session.setAttribute("role", userSession.getRole());
 			response.setContentType("text/html");
 			PrintWriter pwriter = response.getWriter();
 			pwriter.print("<h2>Welcome " + userSession.getEmail() + "!</h2>");
 			pwriter.close();
 			Logger logger = Logger.getLogger(Sessions.class);
 			logger.info(userSession.getEmail() + " Logged in.");
-
-		} else {
-			Logger logger = Logger.getLogger(Sessions.class);
-			logger.debug("Bad email or password: " + userSession.getEmail());
-			response.setStatus(401);
-
-		}
+			System.out.println(session.getAttribute("email"));
+			System.out.println(session.getAttribute("role"));
 
 	}
 	

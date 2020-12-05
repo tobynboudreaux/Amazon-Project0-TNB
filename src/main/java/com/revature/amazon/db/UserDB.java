@@ -182,28 +182,34 @@ public class UserDB {
         return users;
     }
     
-    public Boolean validEmail(String email, String password) {
-		String sqlQuery = "SELECT * FROM users WHERE email = ? and password = ? LIMIT 1";
+    public User validEmail(String email, String password, String role) {
+		String sqlQuery = "SELECT * FROM users u INNER JOIN roles r ON u.role_id = r.id WHERE u.email = ? and u.PASSWORD = ? LIMIT 1";
+        User user = new User();
 
 		try (Connection connection = JDBCUtility.getConnection()) {
 
 			PreparedStatement pstmt = connection.prepareStatement(sqlQuery);
 			pstmt.setString(1, email);
-			pstmt.setString(2, password);
+            pstmt.setString(2, password);
 
-			ResultSet resultSet = pstmt.executeQuery();
+			ResultSet rs = pstmt.executeQuery();
 
-			if (resultSet.next()) {
-				return true;
-			} else {
-				return false;
-			}
+            while ( rs.next() ) {
+                int userId1 = rs.getInt(1);
+                String email1 = rs.getString(2);
+                String password1 = rs.getString(3);
+                int balance1 = rs.getInt(4);
+                int roleId1 = rs.getInt(5);
+                String roleName1 = rs.getString(7);
+
+                user = new User(userId1, email1, password1, balance1, new Role(roleId1, roleName1));
+            }
 
 		} catch (SQLException e) {
 			Logger logger = Logger.getLogger(UserDB.class);
 			logger.debug(e.getMessage());
 		}
-		return false;
+		return user;
 	}
 
 }

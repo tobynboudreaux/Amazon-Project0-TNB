@@ -34,30 +34,42 @@ public class Users extends HttpServlet {
             if (req.getPathInfo() != null) {
                 int getID = Integer.parseInt(req.getPathInfo().substring(1));
 
-                try {
+                if (req.getSession().getAttribute("role").equals("Admin")) {
+                    try {
                     User user = new UserService().findUser(getID);
                     resp.getWriter().append(objectMapper.writeValueAsString(user));
                     resp.setContentType("application/json");
                     resp.setStatus(201);
 
-                } catch (IOException e) {
-                    resp.setStatus(400);
+                    } catch (IOException e) {
+                        resp.setStatus(400);
 
-                    Logger logger = Logger.getLogger(Users.class);
-                    logger.debug(e.toString() + "QueryString: " + req.getQueryString());               
-                
-                }
+                        Logger logger = Logger.getLogger(Users.class);
+                        logger.debug(e.toString() + "QueryString: " + req.getQueryString());               
+                    
+                    }
+                } else {
+                    resp.setStatus(403);
+                    resp.getWriter().append("Unauthorized");
+
+                }    
                     
             } else {
-                try {
-                    ArrayList<User> users = new UserService().getAllUsers();
-                    resp.getWriter().append(objectMapper.writeValueAsString(users));
-                    resp.setContentType("application/json");
-                    resp.setStatus(200);
+                if (req.getSession().getAttribute("role").equals("Admin")) {
+                    try {
+                        ArrayList<User> users = new UserService().getAllUsers();
+                        resp.getWriter().append(objectMapper.writeValueAsString(users));
+                        resp.setContentType("application/json");
+                        resp.setStatus(200);
 
-                } catch (Exception e) {
-                    resp.setStatus(400);
-                    e.printStackTrace();
+                    } catch (Exception e) {
+                        resp.setStatus(400);
+                        e.printStackTrace();
+
+                    }
+                } else {
+                    resp.setStatus(403);
+                    resp.getWriter().append("Unauthorized");
 
                 }
             }
@@ -69,16 +81,22 @@ public class Users extends HttpServlet {
             System.out.println("post request recieved @ /users");
             JSONObject jsonObject = new JSONObject(IOUtils.toString(req.getReader()));
 
-            try {
-                User user = new UserService().createUser(jsonObject);
-                resp.getWriter().append(objectMapper.writeValueAsString(user));
-                resp.setContentType("application/json");
-                resp.setStatus(201);
+            if (req.getSession().getAttribute("role").equals("Admin")) {
+                try {
+                    User user = new UserService().createUser(jsonObject);
+                    resp.getWriter().append(objectMapper.writeValueAsString(user));
+                    resp.setContentType("application/json");
+                    resp.setStatus(201);
 
-            } catch (JSONException e) {
-                // crash and burn
-                throw new IOException("Error parsing JSON request string");
-           
+                } catch (JSONException e) {
+                    // crash and burn
+                    throw new IOException("Error parsing JSON request string");
+            
+                }
+            } else {
+                resp.setStatus(403);
+                resp.getWriter().append("Unauthorized");
+
             }
         }
     
@@ -89,15 +107,21 @@ public class Users extends HttpServlet {
             JSONObject jsonObject = new JSONObject(IOUtils.toString(req.getReader()));
             int editID = Integer.parseInt(req.getPathInfo().substring(1));
 
-            try {
-                User user = new UserService().editUser(editID, jsonObject);
-                resp.getWriter().append(objectMapper.writeValueAsString(user));
-                resp.setContentType("application/json");
-                resp.setStatus(201);
+            if (req.getSession().getAttribute("role").equals("Admin")) {
+                try {
+                    User user = new UserService().editUser(editID, jsonObject);
+                    resp.getWriter().append(objectMapper.writeValueAsString(user));
+                    resp.setContentType("application/json");
+                    resp.setStatus(201);
 
-            } catch (JSONException e) {
-                // crash and burn
-                throw new IOException("Error parsing JSON request string");
+                } catch (JSONException e) {
+                    // crash and burn
+                    throw new IOException("Error parsing JSON request string");
+
+                }
+            } else {
+                resp.setStatus(403);
+                resp.getWriter().append("Unauthorized");
 
             }
         }
@@ -108,18 +132,24 @@ public class Users extends HttpServlet {
             System.out.println("delete request recieved @ /users");
             int deleteID = Integer.parseInt(req.getPathInfo().substring(1));
 
-            try {
-                ArrayList<User> users = new UserService().deleteUser(deleteID);
-                resp.getWriter().append(objectMapper.writeValueAsString(users));
-                resp.setContentType("application/json");
-                resp.setStatus(201);
+            if (req.getSession().getAttribute("role").equals("Admin")) {
+                try {
+                    ArrayList<User> users = new UserService().deleteUser(deleteID);
+                    resp.getWriter().append(objectMapper.writeValueAsString(users));
+                    resp.setContentType("application/json");
+                    resp.setStatus(201);
 
-            } catch (IOException e) {
-                resp.setStatus(400);
+                } catch (IOException e) {
+                    resp.setStatus(400);
 
-                Logger logger = Logger.getLogger(Users.class);
-                logger.debug(e.toString() + "QueryString: " + req.getQueryString());               
-            
-            }    
+                    Logger logger = Logger.getLogger(Users.class);
+                    logger.debug(e.toString() + "QueryString: " + req.getQueryString());               
+                
+                }    
+            } else {
+                resp.setStatus(403);
+                resp.getWriter().append("Unauthorized");
+
+            }
         }     
 }

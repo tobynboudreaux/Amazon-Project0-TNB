@@ -85,7 +85,16 @@
         <br>
         <h4>Login</h4>
         <p>Post http://localhost:4321/sessions</p>
-        <p>Request with JSON values the user email and password you with to log in as.</p>
+        <p>Request with JSON validates the user email, password, and role you want to log in as.</p>
+        <p>    {
+            "email": "toby@gmail.com",
+            "password": "password",
+            "role": {
+                "id": 1,
+                "role": "Admin"
+            }
+        }
+    </p>
         <p>Response: Logs in User and returns a welcome message</p>
         <br>
 
