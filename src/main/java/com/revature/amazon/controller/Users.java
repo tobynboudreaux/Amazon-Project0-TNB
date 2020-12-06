@@ -83,8 +83,8 @@ public class Users extends HttpServlet {
 
             if (req.getSession().getAttribute("role").equals("Admin")) {
                 try {
-                    User user = new UserService().createUser(jsonObject);
-                    resp.getWriter().append(objectMapper.writeValueAsString(user));
+                    ArrayList<User> users = new UserService().createUser(jsonObject);
+                    resp.getWriter().append(objectMapper.writeValueAsString(users));
                     resp.setContentType("application/json");
                     resp.setStatus(201);
 

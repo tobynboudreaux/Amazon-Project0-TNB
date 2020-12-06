@@ -53,22 +53,20 @@ public class ItemService {
     }
 
     public Item editItem(int editID, JSONObject jsonObject) throws IOException {
-        int id = jsonObject.getInt("id");
         String name = jsonObject.getString("name");
         String description = jsonObject.getString("description");
         int price = jsonObject.getInt("price");
         int seller_id = jsonObject.getInt("seller_id");
-        return itemDB.editItem(editID, id, name, price, description, seller_id);
+        return itemDB.editItem(editID, name, price, description, seller_id);
 
     }
 
-    public Item createItem(JSONObject jsonObject) throws IOException {
-        int id = jsonObject.getInt("id");
+    public ArrayList<Item> createItem(JSONObject jsonObject) throws IOException {
         String name = jsonObject.getString("name");
         String description = jsonObject.getString("description");
         int price = jsonObject.getInt("price");
         int seller_id = jsonObject.getInt("seller_id");
-        return itemDB.createItem(id, name, price, description, seller_id);
+        return itemDB.createItem(name, price, description, seller_id);
 
     }
 

@@ -73,21 +73,20 @@ public class UserDB {
         return user;
     }
 
-    public User editUser(int editID, int id, String email, String password, int balance, int role_id) {
+    public User editUser(int editID, String email, String password, int balance, int role_id) {
 
         User user = new User();
-        String sqlQuery = "UPDATE users set id = ?, email = ?, password = ?, balance = ?, role_id = ? WHERE id = " + editID + ";";
+        String sqlQuery = "UPDATE users set email = ?, password = ?, balance = ?, role_id = ? WHERE id = " + editID + ";";
 
-        String sel = "SELECT * FROM users u INNER JOIN roles r ON u.role_id = r.id WHERE u.id = " + id + ";";
+        String sel = "SELECT * FROM users u INNER JOIN roles r ON u.role_id = r.id WHERE u.id = " + editID + ";";
 
         try (Connection connection = JDBCUtility.getConnection()) {
             
             PreparedStatement pstmt = connection.prepareStatement(sqlQuery, Statement.RETURN_GENERATED_KEYS);
-            pstmt.setInt(1, id);
-            pstmt.setString(2, email);
-            pstmt.setString(3, password);
-            pstmt.setInt(4, balance);
-            pstmt.setInt(5, role_id);
+            pstmt.setString(1, email);
+            pstmt.setString(2, password);
+            pstmt.setInt(3, balance);
+            pstmt.setInt(4, role_id);
 
             pstmt.executeUpdate();
 
@@ -111,22 +110,21 @@ public class UserDB {
         return user;
     }
 
-    public User createUser(int id, String email, String password, int balance, int role_id) {
+    public ArrayList<User> createUser(String email, String password, int balance, int role_id) {
 
-        User user = new User();
-        String sqlQuery = "INSERT INTO users (id, email, password, balance, role_id) " 
-                        + "VALUES (?, ?, ?, ?, ?)";
+        ArrayList<User> users = new ArrayList();
+        String sqlQuery = "INSERT INTO users (email, password, balance, role_id) " 
+                        + "VALUES (?, ?, ?, ?)";
 
-        String sel = "SELECT * FROM users u INNER JOIN roles r ON u.role_id = r.id WHERE u.id = " + id + ";";
+        String sel = "SELECT * FROM users u INNER JOIN roles r ON u.role_id = r.id;";
                     
         try (Connection connection = JDBCUtility.getConnection()) {
 
             PreparedStatement pstmt = connection.prepareStatement(sqlQuery, Statement.RETURN_GENERATED_KEYS);
-            pstmt.setInt(1, id);
-            pstmt.setString(2, email);
-            pstmt.setString(3, password);
-            pstmt.setInt(4, balance);
-            pstmt.setInt(5, role_id);
+            pstmt.setString(1, email);
+            pstmt.setString(2, password);
+            pstmt.setInt(3, balance);
+            pstmt.setInt(4, role_id);
 
             pstmt.executeUpdate();
 
@@ -140,14 +138,14 @@ public class UserDB {
                 int roleId1 = rs.getInt(5);
                 String roleName1 = rs.getString(7);
 
-                user = new User(userId1, email1, password1, balance1, new Role(roleId1, roleName1));
+                users.add(new User(userId1, email1, password1, balance1, new Role(roleId1, roleName1)));
             }
             
         } catch (SQLException e) {
 			Logger logger = Logger.getLogger(UserDB.class);
 			logger.debug(e.getMessage());
         }
-        return user;
+        return users;
     }
 
     public ArrayList<User> deleteUser(int id) {

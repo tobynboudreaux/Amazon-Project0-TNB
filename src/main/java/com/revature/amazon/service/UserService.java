@@ -41,22 +41,20 @@ public class UserService {
     }
 
     public User editUser(int editID, JSONObject jsonObject) throws IOException {
-        int id = jsonObject.getInt("id");
         String email = jsonObject.getString("email");
         String password = jsonObject.getString("password");
         int balance = jsonObject.getInt("balance");
         int role_id = jsonObject.getInt("role_id");
-        return userDB.editUser(editID, id, email, password, balance, role_id);
+        return userDB.editUser(editID, email, password, balance, role_id);
     
     }
 
-    public User createUser(JSONObject jsonObject) throws IOException {
-        int id = jsonObject.getInt("id");
+    public ArrayList<User> createUser(JSONObject jsonObject) throws IOException {
         String email = jsonObject.getString("email");
         String password = jsonObject.getString("password");
         int balance = jsonObject.getInt("balance");
         int role_id = jsonObject.getInt("role_id");
-        return userDB.createUser(id, email, password, balance, role_id);
+        return userDB.createUser(email, password, balance, role_id);
     
     }
 

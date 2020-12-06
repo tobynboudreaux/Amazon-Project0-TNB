@@ -88,18 +88,17 @@ public class ItemDB {
         return item;
     }
 
-    public Item editItem(int editID, int id, String name, int price, String description, int seller_id) {
+    public Item editItem(int editID, String name, int price, String description, int seller_id) {
         Item item = new Item();
-        String sqlQuery = "UPDATE items set id = ?, name = ?, price = ?, description = ?, seller_id = ? WHERE id = " + editID + ";";
-        String sel = "SELECT * FROM items i INNER JOIN users u ON i.seller_id = u.id INNER JOIN roles r ON u.role_id = r.id WHERE i.id = " + id + ";";
+        String sqlQuery = "UPDATE items set name = ?, price = ?, description = ?, seller_id = ? WHERE id = " + editID + ";";
+        String sel = "SELECT * FROM items i INNER JOIN users u ON i.seller_id = u.id INNER JOIN roles r ON u.role_id = r.id WHERE i.id = " + editID + ";";
         
         try (Connection connection = JDBCUtility.getConnection()) {
             PreparedStatement pstmt = connection.prepareStatement(sqlQuery, Statement.RETURN_GENERATED_KEYS);
-            pstmt.setInt(1, id);
-            pstmt.setString(2, name);
-            pstmt.setInt(3, price);
-            pstmt.setString(4, description);
-            pstmt.setInt(5, seller_id);
+            pstmt.setString(1, name);
+            pstmt.setInt(2, price);
+            pstmt.setString(3, description);
+            pstmt.setInt(4, seller_id);
 
             pstmt.executeUpdate();
 
@@ -132,19 +131,18 @@ public class ItemDB {
         return item;
     }
 
-    public Item createItem(int id, String name, int price, String description, int seller_id) {
-        Item item = new Item();
-        String sqlQuery = "INSERT INTO items (ID, NAME, PRICE, DESCRIPTION, SELLER_ID) " 
-                        + "VALUES (?, ?, ?, ?, ?)";                    
-        String sel = "SELECT * FROM items i INNER JOIN users u ON i.seller_id = u.id INNER JOIN roles r ON u.role_id = r.id WHERE i.id = " + id + ";";
+    public ArrayList<Item> createItem(String name, int price, String description, int seller_id) {
+        ArrayList<Item> items = new ArrayList();
+        String sqlQuery = "INSERT INTO items (name, price, description, seller_id) " 
+                        + "VALUES (?, ?, ?, ?)";                    
+        String sel = "SELECT * FROM items i INNER JOIN users u ON i.seller_id = u.id INNER JOIN roles r ON u.role_id = r.id;";
         
         try (Connection connection = JDBCUtility.getConnection()) {
             PreparedStatement pstmt = connection.prepareStatement(sqlQuery, Statement.RETURN_GENERATED_KEYS);
-            pstmt.setInt(1, id);
-            pstmt.setString(2, name);
-            pstmt.setInt(3, price);
-            pstmt.setString(4, description);
-            pstmt.setInt(5, seller_id);
+            pstmt.setString(1, name);
+            pstmt.setInt(2, price);
+            pstmt.setString(3, description);
+            pstmt.setInt(4, seller_id);
 
             pstmt.executeUpdate();
 
@@ -163,18 +161,17 @@ public class ItemDB {
                 int uRole_Id = rs.getInt(10);
                 String uRoleName = rs.getString(12);
 
-                item = new Item(itemId1, name1, price1, description1, new User(uId, uEmail, uPassword, uBalance, new Role(uRole_Id, uRoleName)));
-
+                items.add(new Item(itemId1, name1, price1, description1, new User(uId, uEmail, uPassword, uBalance, new Role(uRole_Id, uRoleName))));
             }
 
-            return item;
+            return items;
         } catch (SQLException e) {
 
             Logger logger = Logger.getLogger(ItemDB.class);
 			logger.debug(e.getMessage());
         }
 
-        return item;
+        return items;
     }
 
     public ArrayList<Item> deleteItem(int id) {

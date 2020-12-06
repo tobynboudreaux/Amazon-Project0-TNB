@@ -71,8 +71,8 @@ public class Items extends HttpServlet {
             JSONObject jsonObject = new JSONObject(IOUtils.toString(req.getReader()));
             if (req.getSession().getAttribute("role").equals("Seller") || req.getSession().getAttribute("role").equals("Admin")) {
                 try {
-                    Item item = new ItemService().createItem(jsonObject);
-                    resp.getWriter().append(objectMapper.writeValueAsString(item));
+                    ArrayList<Item> items = new ItemService().createItem(jsonObject);
+                    resp.getWriter().append(objectMapper.writeValueAsString(items));
                     resp.setContentType("application/json");
                     resp.setStatus(201);
     
