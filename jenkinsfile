@@ -1,22 +1,17 @@
-  
 pipeline {
-  agent any
-  stages {
-    stage('build') {
-      steps {
-        sh 'mvn clean install'
-      }
-    }
+    agent any
 
-    stage('deploy') {
-      when {
-        branch 'main'
-      }
+    stages {
+        stage('package') {
+            steps {
+                sh 'mvn clean package'
+            }
+        }
 
-      steps {
-        sh 'rm -rf /usr/share/tomcat/webapps/Amazon || true'
-        sh 'cp -r build /usr/share/tomcat/webapps/Amazon'
-      }
+        stage('deploy') {
+            steps {
+                sh 'cp /usr/share/tomcat/.jenkins/workspace/Amazon_main/target/Amazon.war /usr/share/tomcat/webapps'
+            }
+        }
     }
-  }
 }
