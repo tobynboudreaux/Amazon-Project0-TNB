@@ -9,7 +9,7 @@ import org.postgresql.Driver;
 public class JDBCUtility {
 	
 	public static Connection getConnection() throws SQLException {
-		String url = "jdbc:postgresql://18.191.164.245:5432/postgres?currentSchema=public";
+		String url = "jdbc:postgresql://amazon-db.cejzf6nzfwfc.us-east-2.rds.amazonaws.com:5432/postgres";
 		String username = "postgres";
 		String password = "password";
 	
