@@ -9,10 +9,29 @@
 
         <init-param>
             <param-name>cors.allowed.origins</param-name>
-            <param-value>*</param-value>
+            <param-value>http://localhost:3000, http://3.139.235.28:3000, http://3.129.243.97:3000,  http://52.15.226.187:3000, http://18.191.164.245:3000</param-value>
         </init-param>
-    </filter>
-    
+		<init-param>
+			<param-name>cors.allowed.methods</param-name>
+			<param-value>GET,POST,HEAD,OPTIONS,PUT,DELETE</param-value>
+		</init-param>
+		<init-param>
+			<param-name>cors.allowed.headers</param-name>
+			<param-value>Content-Type,X-Requested-With,accept,Origin,Access-Control-Request-Method,Access-Control-Request-Headers</param-value>
+		</init-param>
+		<init-param>
+			<param-name>cors.exposed.headers</param-name>
+			<param-value>Access-Control-Allow-Origin,Access-Control-Allow-Credentials</param-value>
+		</init-param>
+		<init-param>
+			<param-name>cors.support.credentials</param-name>
+			<param-value>true</param-value>
+		</init-param>
+		<init-param>
+			<param-name>cors.preflight.maxage</param-name>
+			<param-value>10</param-value>
+		</init-param>
+	</filter>
     <filter-mapping>
         <filter-name>CorsFilter</filter-name>
         <url-pattern>/*</url-pattern>

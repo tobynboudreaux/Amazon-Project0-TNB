@@ -3,20 +3,23 @@ import com.revature.amazon.model.Role;
 import com.revature.amazon.model.User;
 
 import com.revature.amazon.db.UserDB;
+import org.json.JSONObject;
+import org.json.JSONException;
+import org.json.HTTP;
 
 public class SessionService {
 	private String email;
 	private String password;
 	private Role role;
+	private int id;
 
 	public SessionService() {
 
 	}
-	
-	public SessionService(String email, String password, Role role) {
+
+	public SessionService(String email, String password) {
 		this.email = email;
 		this.password = password;
-		this.role = role;
 
 	}
 
@@ -40,29 +43,33 @@ public class SessionService {
 
 	}
 
-	public String getRole() {
-		if (this.role == null) {
-			return null;
-			
-		} else {
-			return this.role.getRole();
 
-		}
-	}
 
-	public void setRole(Role role) {
-		this.role = role;
+	// public void setRole(Role role) {
+	// 	this.role = role;
 
-	}
+	// }
 
-	public User validateUser() {
-		return new UserDB().validEmail(getEmail(), getPassword(), getRole());
+	// public int getId() {
+	// 	return this.id;
+
+	// }
+
+	// public void setId(int id) {
+	// 	this.id = id;
+
+	// }
+
+	public User validateUser(JSONObject jsonObject) {
+		String email = jsonObject.getString("email");
+        String password = jsonObject.getString("password");
+		return new UserDB().validEmail(email, password);
 
 	}
 	
 	@Override
 	public String toString() {
-		return "SessionsService [email=" + email + ", password=" + password + ", role=" + role + "]";
+		return "SessionsService [email=" + email + ", password=" + password + "]";
 	
 	}
 }

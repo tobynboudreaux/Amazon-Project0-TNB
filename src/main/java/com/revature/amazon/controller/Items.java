@@ -67,25 +67,33 @@ public class Items extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp)
         throws ServletException, IOException {
             System.out.println("post request recieved @ /items");
-            System.out.println(req.getSession().getAttribute("role"));
-            JSONObject jsonObject = new JSONObject(IOUtils.toString(req.getReader()));
-            if (req.getSession().getAttribute("role").equals("Seller") || req.getSession().getAttribute("role").equals("Admin")) {
-                try {
-                    ArrayList<Item> items = new ItemService().createItem(jsonObject);
-                    resp.getWriter().append(objectMapper.writeValueAsString(items));
-                    resp.setContentType("application/json");
-                    resp.setStatus(201);
-    
-                } catch (JSONException e) {
-                    // crash and burn
-                    throw new IOException("Error parsing JSON request string");
-                
-                }
-            } else {
-                resp.setStatus(403);
-                resp.getWriter().append("Unauthorized");
-            }
 
+            JSONObject jsonObject = new JSONObject(IOUtils.toString(req.getReader()));
+
+            if (req.getSession() != null) {
+                if (req.getSession().getAttribute("role").equals("Seller") || req.getSession().getAttribute("role").equals("Admin")) {
+                    try {
+                        ArrayList<Item> items = new ItemService().createItem(jsonObject);
+                        resp.getWriter().append(objectMapper.writeValueAsString(items));
+                        resp.setContentType("application/json");
+                        resp.setStatus(201);
+        
+                    } catch (JSONException e) {
+                        // crash and burn
+                        throw new IOException("Error parsing JSON request string");
+                    
+                    }
+                } else {
+                    resp.setStatus(403);
+                    resp.getWriter().append("Unauthorized");
+
+                }    
+            } else {
+                    resp.setStatus(403);
+                    resp.getWriter().append("You are not logged in!");
+                    
+            }
+           
 
         }
 
@@ -95,24 +103,31 @@ public class Items extends HttpServlet {
             System.out.println("put request recieved @ /items");
             int editID = Integer.parseInt(req.getPathInfo().substring(1));
             JSONObject jsonObject = new JSONObject(IOUtils.toString(req.getReader()));
-
-            if (req.getSession().getAttribute("role").equals("Seller") || req.getSession().getAttribute("role").equals("Admin")) {
+            
+            if (req.getSession().getAttribute("role") != null) {
+                if (req.getSession().getAttribute("role").equals("Seller") || req.getSession().getAttribute("role").equals("Admin")) {
                     try {
                     Item item = new ItemService().editItem(editID, jsonObject);
                     resp.getWriter().append(objectMapper.writeValueAsString(item));
                     resp.setContentType("application/json");
                     resp.setStatus(201);
 
-                } catch (JSONException e) {
-                    // crash and burn
-                    throw new IOException("Error parsing JSON request string");
-                
+                    } catch (JSONException e) {
+                        // crash and burn
+                        throw new IOException("Error parsing JSON request string");
+                    
+                    }
+                } else {
+                    resp.setStatus(403);
+                    resp.getWriter().append("Unauthorized");
+
                 }
             } else {
                 resp.setStatus(403);
-                resp.getWriter().append("Unauthorized");
+                resp.getWriter().append("You are not logged in!");
 
             }
+           
         }
 
     @Override
@@ -121,24 +136,31 @@ public class Items extends HttpServlet {
             System.out.println("delete request recieved @ /items");
             int deleteID = Integer.parseInt(req.getPathInfo().substring(1));
             
-            if (req.getSession().getAttribute("role").equals("Seller") || req.getSession().getAttribute("role").equals("Admin")) {
-                try {
-                    ArrayList<Item> items = new ItemService().deleteItem(deleteID);
-                    resp.getWriter().append(objectMapper.writeValueAsString(items));
-                    resp.setContentType("application/json");
-                    resp.setStatus(201);
-
-                } catch (IOException e) {
-                    resp.setStatus(400);
-
-                    Logger logger = Logger.getLogger(Items.class);
-                    logger.debug(e.toString() + "QueryString: " + req.getQueryString());               
-                
-                }    
+            if (req.getSession().getAttribute("role") != null) {
+                if (req.getSession().getAttribute("role").equals("Seller") || req.getSession().getAttribute("role").equals("Admin")) {
+                    try {
+                        ArrayList<Item> items = new ItemService().deleteItem(deleteID);
+                        resp.getWriter().append(objectMapper.writeValueAsString(items));
+                        resp.setContentType("application/json");
+                        resp.setStatus(201);
+    
+                    } catch (IOException e) {
+                        resp.setStatus(400);
+    
+                        Logger logger = Logger.getLogger(Items.class);
+                        logger.debug(e.toString() + "QueryString: " + req.getQueryString());               
+                    
+                    }    
+                } else {
+                    resp.setStatus(403);
+                    resp.getWriter().append("Unauthorized");
+    
+                }
             } else {
                 resp.setStatus(403);
-                resp.getWriter().append("Unauthorized");
+                resp.getWriter().append("You are not logged in!");
 
             }
+           
         }
 }

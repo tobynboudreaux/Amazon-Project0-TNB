@@ -41,6 +41,10 @@ public class Order {
 
     }
 
+    public boolean isShipped() {
+        return this.isShipped;
+    }
+
     public void ship() {
         this.isShipped = true;
 
@@ -55,6 +59,15 @@ public class Order {
         return this.buyer;
 
     }
+
+    public void setBuyer(User buyer) {
+        this.buyer = buyer;
+    }
+
+    public int getBuyerID() {
+        User user = buyer;
+        return user.getId();
+	}
 
     public ArrayList<Item> getItems() {
         return this.items;

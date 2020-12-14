@@ -1,0 +1,17 @@
+pipeline {
+    agent any
+
+    stages {
+        stage('package') {
+            steps {
+                sh 'mvn clean package'
+            }
+        }
+
+        stage('deploy') {
+            steps {
+                sh 'cp /home/ec2-user/.jenkins/workspace/Amazon/target/Amazon.war /opt/tomcat/latest/webapps'
+            }
+        }
+    }
+}

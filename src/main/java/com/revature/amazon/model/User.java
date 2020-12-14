@@ -10,11 +10,10 @@ public class User {
     private Role role;
 
     public User() {
-        super();
 
     }
 
-    public User(int id,String email, String password, int balance, Role role) {
+    public User(int id, String email, String password, int balance, Role role) {
         this.id = id;
         this.email = email;
         this.password = password;
@@ -24,7 +23,7 @@ public class User {
     }
 
     public int getId() {
-        return id;
+        return this.id;
 
     }
 
@@ -63,13 +62,24 @@ public class User {
 
     }
 
-    public Role getRole() {
-        return this.role;
+    public String getRoleName() {
+		if (this.role == null) {
+			return null;
+			
+		} else {
+			return this.role.getRole();
 
-    }
+		}
+	}
 
     public void setRole(Role role) {
         this.role = role;
         
     }
+
+    @Override
+	public String toString() {
+		return "User [id=" + id + ", email=" + email + ", password=" + password + ", balance=" + balance + ", role=" + role + "]";
+	
+	}
 }

@@ -180,8 +180,8 @@ public class UserDB {
         return users;
     }
     
-    public User validEmail(String email, String password, String role) {
-		String sqlQuery = "SELECT * FROM users u INNER JOIN roles r ON u.role_id = r.id WHERE u.email = ? and u.PASSWORD = ? LIMIT 1";
+    public User validEmail(String email, String password) {
+		String sqlQuery = "SELECT * FROM users u INNER JOIN roles r ON u.role_id = r.id WHERE u.email = ? and u.password = ? LIMIT 1";
         User user = new User();
 
 		try (Connection connection = JDBCUtility.getConnection()) {

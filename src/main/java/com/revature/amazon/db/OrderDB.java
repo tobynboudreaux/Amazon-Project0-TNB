@@ -119,4 +119,116 @@ public class OrderDB {
 
         return order;
     }
+
+    public Order placeOrder(Order order, int id) {
+        String updateOrder = "UPDATE orders SET isShipped = true WHERE id = " + id + ";";
+        try (Connection connection = JDBCUtility.getConnection()) {
+            connection.createStatement().executeUpdate(updateOrder);
+
+            order.ship();
+            return order;
+
+        } catch (SQLException e) {
+            Logger logger = Logger.getLogger(UserDB.class);
+            logger.debug(e.getMessage());
+        }
+        return order;
+    }
+
+    public Order recallOrder(Order order, int id) {
+        String updateOrder = "UPDATE orders SET isShipped = false WHERE id = " + id + ";";
+        try (Connection connection = JDBCUtility.getConnection()) {
+            connection.createStatement().executeUpdate(updateOrder);
+
+            order.recall();
+            return order;
+
+        } catch (SQLException e) {
+            Logger logger = Logger.getLogger(UserDB.class);
+            logger.debug(e.getMessage());
+        }
+        return order;
+    }
+
+    public Order createOrder(int buyer_id) {
+        Order order = new Order();
+        String createOrder = "INSERT INTO orders (isshipped, buyer_id)"
+            + "VALUES (false, " + buyer_id + ");";
+        String sel = "SELECT * from orders o INNER JOIN users u ON o.buyer_id = u.id";
+
+        try (Connection connection = JDBCUtility.getConnection()) {
+            connection.createStatement().executeUpdate(createOrder);
+            ResultSet rs = connection.createStatement().executeQuery(sel);
+
+            while (rs.next()) {
+                int id = rs.getInt(1);
+                boolean isShipped = rs.getBoolean(2);
+                int buyer_id1 = rs.getInt(3);
+                String buyer_email = rs.getString(5);
+                String buyer_password = rs.getString(6);
+                int buyer_balance = rs.getInt(7);
+                int role_id = rs.getInt(8);
+                String roleName = rs.getString(10);
+
+                order = new Order(id, isShipped, new User(buyer_id1, buyer_email, buyer_password, buyer_balance, new Role(role_id, roleName)));
+            
+            }
+            return order;
+
+        } catch (SQLException e) {
+            Logger logger = Logger.getLogger(UserDB.class);
+            logger.debug(e.getMessage());
+        }
+        return order;
+
+    }
+
+    public Order addItemToOrder(int orderID, int itemID) {
+        Order order = new Order();
+        String addItem = "INSERT INTO orderitems (orderid, itemid)"
+            + "VALUES (" + orderID + ", " + itemID + ");";
+
+        try (Connection connection = JDBCUtility.getConnection()) {
+            connection.createStatement().executeUpdate(addItem);
+
+            order = getOrder(orderID);
+        } catch (SQLException e) {
+            Logger logger = Logger.getLogger(UserDB.class);
+            logger.debug(e.getMessage());
+        }
+        return order;
+               
+    }
+
+    public Order removeItemFromOrder(int orderID, int itemID) {
+        Order order = new Order();
+        String removeItem = "DELETE FROM orderitems WHERE itemID = " + itemID + " AND orderid = " + orderID + ";";
+
+        try (Connection connection = JDBCUtility.getConnection()) {
+            connection.createStatement().executeUpdate(removeItem);
+
+            order = getOrder(orderID);
+        } catch (SQLException e) {
+            Logger logger = Logger.getLogger(UserDB.class);
+            logger.debug(e.getMessage());
+        }
+        return order;
+
+    }
+
+    public String deleteOrder(int orderID) {
+        String removeOrderConstraints = "DELETE FROM orderitems WHERE orderid = " + orderID + ";";
+        String removeOrder = "DELETE FROM orders WHERE id = " + orderID + ";";
+
+        try (Connection connection = JDBCUtility.getConnection()) {
+            connection.createStatement().executeUpdate(removeOrderConstraints);
+            connection.createStatement().executeUpdate(removeOrder);
+
+        } catch (SQLException e) {
+            Logger logger = Logger.getLogger(UserDB.class);
+            logger.debug(e.getMessage());
+        }
+        return "order deleted";
+
+    }
 }
