@@ -71,7 +71,7 @@ public class Items extends HttpServlet {
             JSONObject jsonObject = new JSONObject(IOUtils.toString(req.getReader()));
 
             if (req.getSession() != null) {
-                if (req.getSession().getAttribute("role").equals("Seller") || req.getSession().getAttribute("role").equals("Admin")) {
+                if (req.getSession().getAttribute("role").equals("Admin") || req.getSession().getAttribute("role").equals("Seller")) {
                     try {
                         ArrayList<Item> items = new ItemService().createItem(jsonObject);
                         resp.getWriter().append(objectMapper.writeValueAsString(items));
@@ -80,6 +80,7 @@ public class Items extends HttpServlet {
         
                     } catch (JSONException e) {
                         // crash and burn
+                        resp.setStatus(400);
                         throw new IOException("Error parsing JSON request string");
                     
                     }
@@ -105,7 +106,7 @@ public class Items extends HttpServlet {
             JSONObject jsonObject = new JSONObject(IOUtils.toString(req.getReader()));
             
             if (req.getSession().getAttribute("role") != null) {
-                if (req.getSession().getAttribute("role").equals("Seller") || req.getSession().getAttribute("role").equals("Admin")) {
+                if (req.getSession().getAttribute("role").equals("Admin") || req.getSession().getAttribute("role").equals("Seller")) {
                     try {
                     Item item = new ItemService().editItem(editID, jsonObject);
                     resp.getWriter().append(objectMapper.writeValueAsString(item));
@@ -114,6 +115,7 @@ public class Items extends HttpServlet {
 
                     } catch (JSONException e) {
                         // crash and burn
+                        resp.setStatus(400);
                         throw new IOException("Error parsing JSON request string");
                     
                     }
@@ -137,7 +139,7 @@ public class Items extends HttpServlet {
             int deleteID = Integer.parseInt(req.getPathInfo().substring(1));
             
             if (req.getSession().getAttribute("role") != null) {
-                if (req.getSession().getAttribute("role").equals("Seller") || req.getSession().getAttribute("role").equals("Admin")) {
+                if (req.getSession().getAttribute("role").equals("Admin") || req.getSession().getAttribute("role").equals("Seller")) {
                     try {
                         ArrayList<Item> items = new ItemService().deleteItem(deleteID);
                         resp.getWriter().append(objectMapper.writeValueAsString(items));
